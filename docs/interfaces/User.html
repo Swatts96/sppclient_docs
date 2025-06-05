@@ -1293,6 +1293,7 @@
                 </ul>
               </aside>
             </section>
+            
             <section class="tsd-panel tsd-member">
               <h3 class="tsd-anchor-link" id="addr">
                 <span>addr</span>
@@ -1942,7 +1943,7 @@
               <h3 class="tsd-anchor-link" id="filterset_ids">
                 <span>filterset_ <wbr />ids </span>
                 <a href="#filterset_ids" aria-label="Permalink" class="tsd-anchor-icon">
-                  <svg viewBox="0 0 24 24" aria-label="Property">
+                  <svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property">
                     <use href="../assets/icons.svg#icon-1024"></use>
                   </svg>
                   <span>filterset_ <wbr />ids </span>
@@ -1985,7 +1986,7 @@
               <h3 class="tsd-anchor-link" id="generic">
                 <span>generic</span>
                 <a href="#generic" aria-label="Permalink" class="tsd-anchor-icon">
-                  <svg viewBox="0 0 24 24" aria-label="Property">
+                  <svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property">
                     <use href="../assets/icons.svg#icon-1024"></use>
                   </svg>
                   <span>generic</span>
@@ -2007,7 +2008,7 @@
               <h3 class="tsd-anchor-link" id="hierarchy_node_ids">
                 <span>hierarchy_ <wbr />node_ <wbr />ids </span>
                 <a href="#hierarchy_node_ids" aria-label="Permalink" class="tsd-anchor-icon">
-                  <svg viewBox="0 0 24 24" aria-label="Property">
+                  <svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property">
                     <use href="../assets/icons.svg#icon-1024"></use>
                   </svg>
                   <span>hierarchy_ <wbr />node_ <wbr />ids </span>
@@ -2358,6 +2359,7 @@
                 <span class="tsd-kind-property">password_forced_change</span>
                 <span class="tsd-signature-symbol">:</span>
                 <span class="tsd-signature-type">string</span>
+                <span class="tsd-signature-symbol">;</span>
               </div>
               <aside class="tsd-sources">
                 <ul>
@@ -2433,10 +2435,9 @@
               <h3 class="tsd-anchor-link" id="pm_filter_set">
                 <span>pm_ <wbr />filter_ <wbr />set </span>
                 <a href="#pm_filter_set" aria-label="Permalink" class="tsd-anchor-icon">
-                  <svg viewBox="0 0 24 24" aria-label="Property">
-                    <use href="../assets/icons.svg#icon-1024"></use>
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <use href="../assets/icons.svg#icon-anchor"></use>
                   </svg>
-                  <span>pm_ <wbr />filter_ <wbr />set </span>
                 </a>
               </h3>
               <div class="tsd-signature">
@@ -3338,8 +3339,80 @@
                 </ul>
               </aside>
             </section>
-          </section>
+
+        <section class="tsd-panel-group tsd-index-group">
         </details>
+          </section>
+   <section class="tsd-panel tsd-comment">
+  <div class="tsd-comment tsd-typography">
+    <h3>Usage and Permissions</h3>
+    <h4>Listing Users:</h4>
+    <ul>
+      <li>Use the <code>list()</code> or <code>batchList()</code> methods on <code>SPPClient</code> to retrieve <strong>User</strong> objects.</li>
+    </ul>
+    <h4>Creating Users:</h4>
+    <ul>
+      <li>To <strong>add new users</strong>, you <strong>must</strong> use the `CreateUser` (XML API) or `createUser()` (SOAP API) command. Do not use the generic `Add` or `add()` command for `User` objects.</li>
+      <li>
+        <strong>Permissions:</strong> You must be authenticated as an <strong>account administrator</strong> or have the "View, modify, and create new users" role permission to use the `CreateUser` command.
+      </li>
+      <li>
+        <strong>Required Properties for `CreateUser`</strong>:
+        <ul>
+          <li>`nickname`: The user's unique nickname.</li>
+          <li>`addr.email`: The user's email address.</li>
+          <li>`password`: Required, unless creating a generic user (`generic` set to 1).</li>
+          <li>`role_id`: The internal ID of the role associated with the user. Defaults to the default role if not set.</li>
+          <li>`Company` object: Must be specified as an argument, identifying the company the user is being added to.</li>
+          <li>`User` object: The user object itself must be specified as an argument.</li>
+        </ul>
+      </li>
+      <li>
+        <strong>Important Notes for Creation:</strong>
+        <ul>
+          <li>If `SAML` authentication is used, a password can be set when creating a new user if the Boolean custom field `saml_auth__c` is set to `true`.</li>
+          <li>The `CreateUser` command does not support foreign key lookup.</li>
+          <li>Limits are enforced to prevent creating or activating users if doing so would exceed the number of user licenses purchased for your account. If no user licenses of the appropriate type are available, the `CreateUser` command creates a new user record but sets it as inactive.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h4>Updating Users:</h4>
+    <ul>
+      <li>You can use the <code>update()</code> method on <code>SPPClient</code> to update a User object.</li>
+      <li>
+        <strong>Permissions:</strong> To modify a user record (other than the authenticated user's own record), the authenticated user must be an administrator or have the "View, modify, and create new users" or "View and modify users" role permission. All authenticated users can modify their own user record without these specific role permissions.
+      </li>
+      <li>User settings (`flags`) can only be modified by an administrator.</li>
+      <li>If `SAML` authentication is enabled for a user, passwords cannot be modified when updating an existing user record.</li>
+      <li>
+        When adding or modifying a user, you can also update:
+        <ul>
+          <li>Loaded cost information (using `update_cost: 1`).</li>
+          <li>Entity tag information (using `update_tag: 1`).</li>
+          <li>Work schedule information (using `update_workschedule: 1`).</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h4>Reading Users:</h4>
+    <ul>
+      <li>You can use the `Read` (XML API) or `read()` (SOAP API) command to retrieve User objects.</li>
+      <li>The `generic` attribute can be set to `1` when reading `User` objects to return only generic resources.</li>
+    </ul>
+
+    <h4>Deleting Users:</h4>
+    <ul>
+      <li>You can use the `Delete` (XML API) or `delete()` (SOAP API) command to delete a User object.</li>
+      <li><strong>Permissions:</strong> Specific permissions apply for deleting user records.</li>
+    </ul>
+
+    <p>
+      <strong>Important:</strong> Business rules configured for your company's SuiteProjects Pro account are applied when an integration application interacts with your SuiteProjects Pro data through the REST API. However, they are <strong>not</strong> applied when interacting through the SOAP API or XML API, where developers must enforce business rules within their integration application if required.
+    </p>
+  </div>
+</section>
+        
       </div>
       <div class="col-sidebar">
         <div class="page-menu">
@@ -3588,7 +3661,7 @@
                     <span>externalid</span>
                   </a>
                   <a href="#filterset_ids">
-                    <svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property">
+                    <svg class="tsd-kind-icon" viewBox="0 0 24" aria-label="Property">
                       <use href="../assets/icons.svg#icon-1024"></use>
                     </svg>
                     <span>filterset_ <wbr />ids </span>
@@ -3986,8 +4059,10 @@
                 </div>
               </details>
             </div>
+            
           </details>
         </div>
+        
         <div class="site-menu">
           <nav class="tsd-navigation">
             <a href="../modules.html">@theredspace/spp-client</a>
