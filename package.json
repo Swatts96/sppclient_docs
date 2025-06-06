@@ -1,0 +1,25 @@
+{
+  "name": "sppclient_docs",
+  "version": "1.0.0",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Swatts96/sppclient_docs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Swatts96/sppclient_docs/issues"
+  },
+  "homepage": "https://github.com/Swatts96/sppclient_docs#readme",
+  "description": "",
+  "devDependencies": {
+    "prettier": "^3.5.3"
+  }
+}
